@@ -1,8 +1,8 @@
 {
-  "name": "fetch-retry",
-  "version": "3.1.0",
+  "name": "fetch-retry-body",
+  "version": "1.0.0",
   "description": "Extend any fetch library with retry functionality",
-  "repository": "https://github.com/jonbern/fetch-retry.git",
+  "repository": "https://github.com/hoffination/fetch-retry-body.git",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -16,7 +16,10 @@
     "retry",
     "Fetch API"
   ],
-  "author": "Jon K. Bernhardsen",
+  "contributors": [
+    "Jon K. Bernhardsen",
+    "Ben Hofferber"
+  ],
   "license": "MIT",
   "dependencies": {
     "es6-promise": "^4.2.8"

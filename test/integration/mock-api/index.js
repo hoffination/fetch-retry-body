@@ -30,6 +30,15 @@ app.get('/mock', (req, res) => {
   }
 });
 
+app.get('/mock/json', (req, res) => {
+  if (responses.length === 0) {
+    res.status(501).send('Mock API is not configured to return anything');
+  } else {
+    calls++;
+    res.status(responses.shift()).json({ calls });
+  }
+});
+
 app.get('/mock/calls', (req, res) => {
   res.status(200).send(calls.toString());
 });

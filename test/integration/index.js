@@ -7,7 +7,7 @@ const childProcess = require('child_process');
 const fetch = require('isomorphic-fetch');
 const fetchRetry = require('../../')(fetch);
 
-describe('fetch-retry integration tests', () => {
+describe('fetch-retry-body integration tests', () => {
 
   const baseUrl = 'http://localhost:3000/mock';
 
@@ -183,6 +183,43 @@ describe('fetch-retry integration tests', () => {
         const expectedCallCount = init.retries + 1;
 
         return fetchRetry(baseUrl, init)
+          .then(getCallCount)
+          .should.eventually.equal(expectedCallCount);
+      });
+
+    });
+
+  });
+
+  describe('when configured to retry on a specific HTTP response body', () => {
+
+    describe('and it receives different responses', () => {
+
+      beforeEach(() => {
+        return setupResponses([200, 200, 200, 200]);
+      });
+
+      it('retries the request until { calls: 3 } returns', () => {
+        const retries = 3
+        const init = {
+          retryDelay: 100,
+          retryOn: async (attempt, error, response) => {
+            if (attempt > retries) return false;
+            const { calls } = await response.clone().json();
+            if (calls === 3) {
+              return false;
+            }
+            return true;
+          }
+        };
+
+        const expectedCallCount = 3;
+
+        return fetchRetry(baseUrl + '/json', init)
+          .then(async res => {
+            const result = await res.json();
+            chai.expect(result.calls).to.equal(3);
+          })
           .then(getCallCount)
           .should.eventually.equal(expectedCallCount);
       });

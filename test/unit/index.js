@@ -29,7 +29,7 @@ describe('fetchBuilder', function () {
   });
 });
 
-describe('fetch-retry', function () {
+describe('fetch-retry-body', function () {
 
   var fetch;
   var fetchRetry;
